@@ -1,9 +1,10 @@
 package main
 
-import (
-	"database/sql"
-)
-/*Defines the books*/
+import "database/sql"
+
+/**
+ * books - Defines the fields for db.
+ */
 type books struct {
 	ID    int   `json:"id"`
 	Name  string `json:"name"`
@@ -11,11 +12,12 @@ type books struct {
 }
 
 /**
- * getBook - Quearies the db for a book that contains a specific id.
+ * getBook - books method that quearies the db
+ * for a book that contains a specific id.
  */
 func (b *books) getBook(db *sql.DB) error{
 	return db.QueryRow("SElECT name, description FROM books where id=$1",
-	b.ID).Scan(&b.Name, b.Description)
+	b.ID).Scan(&b.Name, &b.Description)
 }
 
 /**
