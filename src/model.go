@@ -14,6 +14,7 @@ type books struct {
 /**
  * getBook - books method that quearies the db
  * for a book that contains a specific id.
+ * Returns: a db object with the queried information.
  */
 func (b *books) getBook(db *sql.DB) error{
 	return db.QueryRow("SElECT name, description FROM books where id=$1",
@@ -29,13 +30,19 @@ func (b *books) updateBooks(db *sql.DB) error{
 	return err
 }
 
-/*Deletes Books*/
+/**
+ * deleteBooks - Removes a book from the database.
+ * Return: Upon sucess nil, Otherwise an error message.
+ */
 func (b *books) deleteBooks(db *sql.DB) error{
 	_, err := db.Exec("DELETE FROM books WHERE id=$1", b.ID)
 	return err
 }
 
-/*Adds books*/
+/**
+ * addBooks - Adds books into the database.
+ * Return: Upon sucess nil, Otherwise an error message.
+ */
 func (b *books) addBooks(db *sql.DB) error{
 	err := db.QueryRow(
 		"INSERT INTO books(name, description) VALUES($1, $2) RETURNING id",
@@ -46,10 +53,16 @@ func (b *books) addBooks(db *sql.DB) error{
 	return nil
 }
 
-/*Gets all the boooks in the database*/
+/**
+ * getAllBooks - Gets books in the data base from start up to count. By default
+ * it will start at 0. No more the 10 items will be displayed per query.
+ * Return: Upon sucess a map with the books and nil as error. Otherwise a nil
+ * map and the error message.
+ */
 func getAllBooks(db *sql.DB, start, count int)([]books, error){
 	rows, err := db.Query(
-		"SELECT id, name, description FROM books LIMIT $1 OFFSET $2", count, start)
+		"SELECT id, name, description FROM books LIMIT $1 OFFSET $2",
+		count, start)
 	if err != nil{
 		return nil, err
 	}
@@ -64,4 +77,3 @@ func getAllBooks(db *sql.DB, start, count int)([]books, error){
 	}
 	return book, nil
 }
-
