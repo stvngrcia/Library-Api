@@ -101,11 +101,10 @@ func TestGetNonExistentBook(t *testing.T){
 func TestCreateBook(t *testing.T){
 	clearTable()
 
-	payload := []byte(`"name":"test book", "description":"Testing this book"`)
+	payload := []byte(`{"name":"test book", "description":"Testing this book"}`)
 	req, _ := http.NewRequest("POST", "/book", bytes.NewBuffer(payload))
 	response := executeRequest(req)
-
-	checkResponseCode(t, http.StatusCreated, response.Code)
+	checkResponseCode(t, http.StatusOK, response.Code)
 
 	var m map[string]interface{}
 	json.Unmarshal(response.Body.Bytes(), &m)
@@ -149,7 +148,7 @@ func TestUpdateBook(t *testing.T){
 	var originalBook map[string]interface{}
 	json.Unmarshal(response.Body.Bytes(), &originalBook)
 
-	payload := []byte(`{"name":"test updated name","description":updated}`)
+	payload := []byte(`{"name":"test updated name","description":"updated"}`)
 	req, _ = http.NewRequest("PUT", "/book/1", bytes.NewBuffer(payload))
 	response = executeRequest(req)
 	checkResponseCode(t, http.StatusOK, response.Code)
@@ -157,7 +156,7 @@ func TestUpdateBook(t *testing.T){
 	var m map[string]interface{}
 	json.Unmarshal(response.Body.Bytes(), &m)
 
-	if m["name"] != originalBook["name"]{
+	if m["name"] == originalBook["name"]{
 		t.Errorf("Expected the name to change, but it did not")
 	}
 }
