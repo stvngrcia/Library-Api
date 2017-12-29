@@ -13,7 +13,9 @@ import (
 )
 
 var app main.App
-
+/**
+curl -i -X POST -H 'Content-Type: application/json' -d '{"name":"test", "description":"test1"}' http://localhost:8080/book
+**/
 /*Initializing the app to be tested*/
 func TestMain(m *testing.M){
 	app = main.App{}
