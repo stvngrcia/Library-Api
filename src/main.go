@@ -9,5 +9,5 @@ func main(){
 		os.Getenv("DB_USERNAME"),
 		os.Getenv("DB_PASSWD"),
 		os.Getenv("DB_NAME"))
-	app.Run(":80")
+	app.Run(":8080")
 }
