@@ -16,10 +16,8 @@ $ ./src
 ```
 Otherwise head over to the src directory and after setting up your GOPATH and your GOBIN run go build or go install.
 
-+ to test your application simply run:
++ to test your application inside the src file simply run:
 
 ```
 go test -v
 ```
-
-inside the src file.
